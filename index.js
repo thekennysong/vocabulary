@@ -25,7 +25,15 @@ module.exports = {
     },
 
     isNullOrEmpty: function isNullOrEmpty (value) {
-        if (value === null || value === undefined) return true;
+        Array.prototype.isNull = function () { 
+            return this.join().replace(/,/g,'').length === 0; 
+        };
+        
+        if (value === null || value === undefined) {
+            return true;
+        } if (Array.isArray(value) && value.isNull()) {
+            return true;
+        }
         if (value.length === undefined) {
             return Object.keys(value).length === 0;
         } else {
